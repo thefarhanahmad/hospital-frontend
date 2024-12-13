@@ -6,16 +6,24 @@ export const ROUTES = {
   DASHBOARD: {
     DOCTOR: "/doctor/dashboard",
     HOSPITAL: "/hospital/dashboard",
-    PHARMEASY: "/pharmeasy/dashboard",
+    PHARMACY: "/pharmacy/dashboard",
     USER: "/user/dashboard",
+    DIAGNOSTIC: "/diagnostic/dashboard",
+    PATHLAB: "/pathlab/dashboard",
+    BLOODBANK: "/bloodbank/dashboard",
+    ADMIN: "/admin/dashboard"
   },
 };
 
 export const ROLES = {
   DOCTOR: "doctor",
   HOSPITAL: "hospital",
-  PHARMEASY: "pharmeasy",
+  PHARMACY: "pharmacy",
   USER: "user",
+  DIAGNOSTIC: "diagnostic",
+  PATHLAB: "pathlab",
+  BLOODBANK: "bloodbank",
+  ADMIN: "admin"
 };
 
 export const GENDERS = {

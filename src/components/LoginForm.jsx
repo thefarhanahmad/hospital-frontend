@@ -9,16 +9,17 @@ import { setAuthToken, setUserRole } from "../utils/auth";
 import { ROUTES } from "../config/constants";
 import FormInput from "./forms/FormInput";
 import SubmitButton from "./forms/SubmitButton";
+import { useAuth } from '../contexts/AuthContext';
 
 export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login: authLogin } = useAuth();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     resolver: yupResolver(loginSchema),
   });
@@ -31,15 +32,21 @@ export default function LoginForm() {
       // Store auth data
       setAuthToken(response.token);
       setUserRole(response.data.user.role);
+      
+      // Update auth context
+      authLogin(response.token, response.data.user.role);
 
       toast.success("Login successful!");
-      console.log("response : ", response);
-      // Redirect based on role
-      const dashboardRoute =
-        ROUTES.DASHBOARD[response.data.user.role.toUpperCase()];
-      navigate(dashboardRoute);
 
-      // reset();
+      // Get the role and convert to uppercase for route lookup
+      const userRole = response.data.user.role.toUpperCase();
+      const dashboardRoute = ROUTES.DASHBOARD[userRole];
+
+      if (!dashboardRoute) {
+        throw new Error('Invalid user role');
+      }
+
+      navigate(dashboardRoute);
     } catch (error) {
       toast.error(error.message || "Login failed");
     } finally {

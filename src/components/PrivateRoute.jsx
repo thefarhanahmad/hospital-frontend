@@ -1,11 +1,10 @@
 import { Navigate } from 'react-router-dom';
-import { getAuthToken, getUserRole } from '../utils/auth';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function PrivateRoute({ children, allowedRoles }) {
-  const token = getAuthToken();
-  const userRole = getUserRole();
+  const { isAuthenticated, userRole } = useAuth();
 
-  if (!token) {
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
